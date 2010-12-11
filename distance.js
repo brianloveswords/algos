@@ -1,1 +1,5 @@
-console.log('hi');
+String.prototype.distance = (function(){
+
+  return function(){console.dir('hi');};
+})();
+

@@ -1,4 +1,4 @@
 var assert = require("assert");
 require("./distance");
 
-assert.equal('awesome'.distance, 'function');
+assert.equal(typeof 'awesome'.distance, 'function');
