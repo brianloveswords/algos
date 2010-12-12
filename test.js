@@ -14,6 +14,7 @@ run.test("Jaro", function(t){
   t.equal(dist.jaro('martha', 'marhta'), (1/3)*(1+1+5/6));
   t.equal(dist.jaro('duane', 'dwayne'), (1/3)*(4/6+4/5+1));
   t.equal(dist.jaro('jones', 'johnson'), (1/3)*(4/5+4/7+1));
+  t.equal(dist.jaro('abc', 'def'), 0);
 });
 
 run.test("Jaro-Winkler", function(t){

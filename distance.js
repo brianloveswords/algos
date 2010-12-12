@@ -8,6 +8,7 @@
 // the strings to be the same length. This version can take strings of any
 // size and applies the difference in length to the distance, so `ham` and
 // `hamsled` will have a distance of 4.
+
 var hamming = function(str1, str2){
   var dist = 0,
       big = str1,
@@ -22,6 +23,10 @@ var hamming = function(str1, str2){
   }
   return dist;
 };
+
+
+// Implements the raw jaro distance. Relies on the modified hamming distance
+// from above. Useful for relatively short strings. 
 
 var jaro = function(str1, str2){
   var len1 = str1.length,
@@ -58,12 +63,15 @@ var jaro = function(str1, str2){
   
   match_string1 = get_match_string(str1, str2);
   match_string2 = get_match_string(str2, str1);
-
   matches = Math.min(match_string1.length, match_string2.length);
+  
+  if (matches == 0) { return 0; }
+  
   transpositions = hamming(match_string1, match_string2)/2;
   
   return (1/3) * (matches/len1 + matches/len2 + (matches - transpositions)/matches);
 };
+
 
 var jarowinkler = function(str1, str2, weight){
   // do not exceed 0.25 or distance can exceed 1
@@ -82,4 +90,3 @@ var jarowinkler = function(str1, str2, weight){
 exports['hamming'] = hamming;
 exports['jaro'] = jaro;
 exports['jarowinkler'] = jarowinkler;
-
