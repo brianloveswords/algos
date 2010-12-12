@@ -65,5 +65,21 @@ var jaro = function(str1, str2){
   return (1/3) * (matches/len1 + matches/len2 + (matches - transpositions)/matches);
 };
 
+var jarowinkler = function(str1, str2, weight){
+  // do not exceed 0.25 or distance can exceed 1
+  var WEIGHT = weight ? (weight > 0.25 ? 0.25 : weight) : 0.1,
+      prefix = 0,
+      max = Math.max(str1.length, str2.length),
+      jarodist = jaro(str1, str2);
+  
+  for (var i=0; i < max && prefix <= 4; i++) {
+    if (str1[i] == str2[i]) { prefix++; }
+    else { break; }
+  }
+  return jarodist + (prefix * WEIGHT * (1 - jarodist));
+};
+
 exports['hamming'] = hamming;
 exports['jaro'] = jaro;
+exports['jarowinkler'] = jarowinkler;
+
