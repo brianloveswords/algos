@@ -23,4 +23,47 @@ var hamming = function(str1, str2){
   return dist;
 };
 
+var jaro = function(str1, str2){
+  var len1 = str1.length,
+      len2 = str2.length,
+      max = Math.max(len1, len2),
+      frame = Math.floor(max/2 - 1),
+      match_string1 = '',
+      match_string2 = '',
+      matches = 0,
+      transpositions = 0;
+
+  var get_match_string = function(string1, string2) {
+    var result = '';
+    for (var i=0; i < string1.length; i++) {
+      var chr1 = string1[i],
+          chr2 = string2[i];
+      
+      if (chr1 == chr2) {
+        result += chr1;
+      }
+      
+      else {
+        for (var j=-(frame); j <= frame; j++) {
+          var pos = i + j;
+          if (pos < 0) { continue; }
+          if (chr1 == string2[pos]) {
+            result += chr1;
+          }
+        }
+      }
+    }
+    return result;
+  };
+  
+  match_string1 = get_match_string(str1, str2);
+  match_string2 = get_match_string(str2, str1);
+
+  matches = Math.min(match_string1.length, match_string2.length);
+  transpositions = hamming(match_string1, match_string2)/2;
+  
+  return (1/3) * (matches/len1 + matches/len2 + (matches - transpositions)/matches);
+};
+
 exports['hamming'] = hamming;
+exports['jaro'] = jaro;
